@@ -1,0 +1,3 @@
+{"cmd":"register","data":"{"user":{"user_id":101,"Passwd":"123456789","nick":"mitix","sex":"男","header":"哈哈","last_login":"","status":0}}"}
+
+{"cmd":"register","data":"{"user_id":101,"passwd":"123456789"}"}

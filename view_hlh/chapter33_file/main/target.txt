@@ -1,0 +1,32 @@
+proxy_pass 这个是代理配置项是正确的做法，然而网上并没有相关ssl双向认证的使用用例
+
+二、发掘官方文档
+没有相关使用案例就自己上官方文档发掘，查看ngx_http_proxy_module的相关配置
+
+http://nginx.org/en/docs/http/ngx_http_proxy_module.html
+
+发现以下配置项目
+
+proxy_ssl_certificate
+proxy_ssl_certificate_key
+毫无疑问这个就是我们要寻找的配置内容，配置客户端证书密钥对的配置项目,在本地开启一个要求进行ssl双向认证的的https server，生成好相关证书和密钥，进行测试
+
+    server {
+        listen       0.0.0.0:9999;
+        #server_name localhost;
+        access_log  off;
+        location / {
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_redirect    off;
+            proxy_ssl_certificate        certs/client.cer;
+            proxy_ssl_certificate_key    certs/client.key;
+            proxy_pass   https://127.0.0.1:8443$request_uri;
+        }
+    }
+---------------------
+作者：新手司机开飞机
+来源：CSDN
+原文：https://blog.csdn.net/medwardm/article/details/72621527
+版权声明：本文为博主原创文章，转载请附上博文链接！
