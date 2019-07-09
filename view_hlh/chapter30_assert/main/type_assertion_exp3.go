@@ -18,7 +18,6 @@ func main() {
 	classifier(b, nn{}, "12345", 22.22222, true)
 }
 
-
 //通过反射去动态获取类型
 func classifier(items ...interface{}) {
 	for i, x := range items {

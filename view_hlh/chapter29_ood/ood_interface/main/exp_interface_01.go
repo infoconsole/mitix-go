@@ -1,70 +1,68 @@
-// Copyright 2019, oldflame-jm. All rights reserved.
-//
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
-// go语言接口定义
-
 package main
 
 import (
 	"fmt"
 )
 
-type Test interface {
-	Print()
-	Sleep()
+//声明/定义一个接口
+type Usb interface {
+	//声明了两个没有实现的方法
+	Start()
+	Stop()
 }
 
-type People struct {
-	Name string
-	Age  int
-	//types.Slice
+//声明/定义一个接口
+type Usb2 interface {
+	//声明了两个没有实现的方法
+	Start()
+	Stop()
+	Test()
 }
 
-type Student struct {
-	Name  string
-	Age   int
-	Score int
+type Phone struct {
 }
 
-func (this Student) Sleep() {
-	panic("implement me")
+//让Phone 实现 Usb接口的方法
+func (p Phone) Start() {
+	fmt.Println("手机开始工作。。。")
+}
+func (p Phone) Stop() {
+	fmt.Println("手机停止工作。。。")
 }
 
-func (this People) Sleep() {
-	fmt.Println(this.Age)
-	//fmt.Println(this.Slice)
+type Camera struct {
 }
 
-func (this Student) Print() {
-	fmt.Println(this.Name)
-	fmt.Println(this.Age)
-	fmt.Println(this.Score)
+//让Camera 实现   Usb接口的方法
+func (c Camera) Start() {
+	fmt.Println("相机开始工作~~~。。。")
+}
+func (c Camera) Stop() {
+	fmt.Println("相机停止工作。。。")
 }
 
-func (this People) Print() {
-	fmt.Println(this.Age)
+//计算机
+type Computer struct {
 }
 
-//noinspection GoBinaryAndUnaryExpressionTypesCompatibility
+//编写一个方法Working 方法，接收一个Usb接口类型变量
+//只要是实现了 Usb接口 （所谓实现Usb接口，就是指实现了 Usb接口声明所有方法）
+func (c Computer) Working(usb Usb) {
+
+	//通过usb接口变量来调用Start和Stop方法
+	usb.Start()
+	usb.Stop()
+}
+
 func main() {
-	var t Test
-	var stu Student
-	stu.Age = 100
-	stu.Name = "hong"
 
-	t = stu
-	t.Print()
-	//t.Sleep()
+	//测试
+	//先创建结构体变量
+	computer := Computer{}
+	phone := Phone{}
+	camera := Camera{}
 
-	var t1 Test
-	var people People
-	people.Name = "hong.lvhang"
-	people.Age = 20000
-	//people.Slice = make([]int, 10)
-
-	t1 = people
-	t1.Sleep()
-	t1.Print()
+	//关键点
+	computer.Working(phone)
+	computer.Working(camera) //
 }
